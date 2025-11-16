@@ -3,13 +3,31 @@ import 'dart:convert';
 import 'package:restful_api_practical/ErrorResponse.dart';
 
 class ApiService {
-  static const String baseUrl = "https://api.mydummyapi.com/posts";
+  static const String baseUrl = 'https://gorest.co.in/public/v2/posts';
+
+  // //get request to fetch posts
+  // Future<List<dynamic>> fetchPosts() async {
+  //   try{
+  //     final response = await http.get(Uri.parse(baseUrl));
+  //   if (response.statusCode == 200) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     await ErrorHandler.handle(null, response);
+  //     return [];
+  //   }
+  //   }catch(e){
+  //     await ErrorHandler.handle(e, null);
+  //     return [];
+  //   }
+    
+  // }
 
   //get request to fetch posts
-  Future<List<dynamic>> fetchPosts() async {
+  Future<List<dynamic>> fetchPosts(int page, int limit) async {
     try{
-      final response = await http.get(Uri.parse(baseUrl));
+      final response = await http.get(Uri.parse('$baseUrl?page=$page&limit=$limit'));
     if (response.statusCode == 200) {
+      print('Decoded Posts: ${response.body}');
       return jsonDecode(response.body);
     } else {
       await ErrorHandler.handle(null, response);
@@ -21,6 +39,7 @@ class ApiService {
     }
     
   }
+
 
   //post request to create a post
   Future<void> createPost(String title, String body) async {
